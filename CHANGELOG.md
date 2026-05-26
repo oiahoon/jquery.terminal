@@ -1,3 +1,7 @@
+## 2.4.6.1
+### Bugfix
+* fix mobile detection [#1047](https://github.com/jcubic/jquery.terminal/issues/1047)
+
 ## 2.46.0
 ### Breaking
 * echo command now echoes a function, and it will appear in export_view
