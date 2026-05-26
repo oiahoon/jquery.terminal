@@ -2190,7 +2190,7 @@
             history: true,
             onPositionChange: $.noop,
             onCommandChange: $.noop,
-            inputStyle: 'textarea',
+            inputStyle: null,
             mobileDelete: is_mobile,
             onPaste: $.noop,
             clickTimeout: 200,
