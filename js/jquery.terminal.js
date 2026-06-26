@@ -41,7 +41,7 @@
  *
  * broken image by Sophia Bai from the Noun Project (CC-BY)
  *
- * Date: Tue, 26 May 2026 14:31:42 +0000
+ * Date: Fri, 26 Jun 2026 17:53:22 +0000
  */
 /* global define, Map, BigInt */
 /* eslint-disable */
@@ -5507,7 +5507,7 @@
     // -------------------------------------------------------------------------
     $.terminal = {
         version: 'DEV',
-        date: 'Tue, 26 May 2026 14:31:42 +0000',
+        date: 'Fri, 26 Jun 2026 17:53:22 +0000',
         // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords
         color_names: [
             'transparent', 'currentcolor', 'black', 'silver', 'gray', 'white',
@@ -9362,8 +9362,8 @@
                         echo_command(command);
                         self.set_command('');
                     } else {
-                        var clip = self.find('textarea');
-                        text_to_clipboard(clip, process_selected_html(html));
+                        var clip = command_line.clip();
+                        text_to_clipboard(clip.$node, process_selected_html(html));
                     }
                 });
                 return false;

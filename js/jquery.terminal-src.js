@@ -9362,8 +9362,8 @@
                         echo_command(command);
                         self.set_command('');
                     } else {
-                        var clip = self.find('textarea');
-                        text_to_clipboard(clip, process_selected_html(html));
+                        var clip = command_line.clip();
+                        text_to_clipboard(clip.$node, process_selected_html(html));
                     }
                 });
                 return false;

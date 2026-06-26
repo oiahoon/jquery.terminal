@@ -1,6 +1,11 @@
-## 2.4.6.1
+## 2.46.2
+### Bugfix
+* fix clipboard on `inputStyle == 'contenteditable'` [#1048](https://github.com/jcubic/jquery.terminal/issues/1048)
+
+## 2.46.1
 ### Bugfix
 * fix mobile detection [#1047](https://github.com/jcubic/jquery.terminal/issues/1047)
+* fix clipboard on `inputStyle == 'contenteditable'` [#1048](https://github.com/jcubic/jquery.terminal/issues/1048)
 
 ## 2.46.0
 ### Breaking
