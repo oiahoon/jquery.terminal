@@ -41,7 +41,7 @@
  *
  * broken image by Sophia Bai from the Noun Project (CC-BY)
  *
- * Date: Fri, 26 Jun 2026 17:53:22 +0000
+ * Date: Sat, 01 Aug 2026 13:53:16 +0000
  */
 /* global define, Map, BigInt */
 /* eslint-disable */
@@ -5507,7 +5507,7 @@
     // -------------------------------------------------------------------------
     $.terminal = {
         version: 'DEV',
-        date: 'Fri, 26 Jun 2026 17:53:22 +0000',
+        date: 'Sat, 01 Aug 2026 13:53:16 +0000',
         // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords
         color_names: [
             'transparent', 'currentcolor', 'black', 'silver', 'gray', 'white',
@@ -12635,7 +12635,7 @@
                         if (e.target.tagName.toLowerCase() === 'a') {
                             return;
                         }
-                        if (!frozen && e.touches.length === 1) {
+                        if (!frozen && e.touches && e.touches.length === 1) {
                             enabled = self.enabled();
                             var point = e.touches[0];
                             start = {
@@ -12647,7 +12647,7 @@
                             }, HOLD_TIME);
                         }
                     }).on('touchmove.terminal', function(e) {
-                        if (e.touches.length === 1 && start) {
+                        if (e.touches && e.touches.length === 1 && start) {
                             var point = e.touches[0];
                             var diff_x = Math.abs(point.clientX - start.x);
                             var diff_y = Math.abs(point.clientY - start.y);

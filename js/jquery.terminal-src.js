@@ -12635,7 +12635,7 @@
                         if (e.target.tagName.toLowerCase() === 'a') {
                             return;
                         }
-                        if (!frozen && e.touches.length === 1) {
+                        if (!frozen && e.touches && e.touches.length === 1) {
                             enabled = self.enabled();
                             var point = e.touches[0];
                             start = {
@@ -12647,7 +12647,7 @@
                             }, HOLD_TIME);
                         }
                     }).on('touchmove.terminal', function(e) {
-                        if (e.touches.length === 1 && start) {
+                        if (e.touches && e.touches.length === 1 && start) {
                             var point = e.touches[0];
                             var diff_x = Math.abs(point.clientX - start.x);
                             var diff_y = Math.abs(point.clientY - start.y);
