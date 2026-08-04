@@ -6557,6 +6557,12 @@ describe('Terminal plugin', function() {
                 });
                 term.destroy();
             });
+            it('should render signature with raw: true', () => {
+                var term = $('<div/>').terminal($.noop, {
+                    raw: true
+                });
+                expect(output(term)).toMatchSnapshot();
+            });
         });
         describe('version', function() {
             var term = $('<div/>').terminal();
