@@ -1,10 +1,7 @@
-## 2.46.3
-### Bugfix
-* fix exception when accessing `event.touches.length`
-
 ## 2.46.2
 ### Bugfix
 * fix clipboard on `inputStyle == 'contenteditable'` [#1048](https://github.com/jcubic/jquery.terminal/issues/1048)
+* fix exception when accessing `event.touches.length`
 
 ## 2.46.1
 ### Bugfix
