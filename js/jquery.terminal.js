@@ -41,7 +41,7 @@
  *
  * broken image by Sophia Bai from the Noun Project (CC-BY)
  *
- * Date: Tue, 26 May 2026 14:35:30 +0000
+ * Date: Tue, 04 Aug 2026 13:26:59 +0000
  */
 /* global define, Map, BigInt */
 /* eslint-disable */
@@ -5507,7 +5507,7 @@
     // -------------------------------------------------------------------------
     $.terminal = {
         version: '2.46.1',
-        date: 'Tue, 26 May 2026 14:35:30 +0000',
+        date: 'Tue, 04 Aug 2026 13:26:59 +0000',
         // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords
         color_names: [
             'transparent', 'currentcolor', 'black', 'silver', 'gray', 'white',
@@ -8693,6 +8693,8 @@
                             array = string.split(/\n/);
                             raw_array = string.split(/\n/);
                         }
+                    } else {
+                        raw_string = string;
                     }
                 } else {
                     raw_string = '';
@@ -9362,8 +9364,8 @@
                         echo_command(command);
                         self.set_command('');
                     } else {
-                        var clip = self.find('textarea');
-                        text_to_clipboard(clip, process_selected_html(html));
+                        var clip = command_line.clip();
+                        text_to_clipboard(clip.$node, process_selected_html(html));
                     }
                 });
                 return false;
@@ -9702,13 +9704,19 @@
                     var command = mask_command(message);
                     prompt = $.terminal.apply_formatters(prompt, {prompt: true});
                     command = $.terminal.apply_formatters(command, {command: true});
-                    var output = prompt + command;
-                    options = $.extend({}, options, {
+                    self.echo(prompt, $.extend({
+                        newline: false,
+                        raw: raw('prompt'),
                         typing: false,
                         formatters: false,
                         convertLinks: false
-                    });
-                    self.echo(output, options);
+                    }, options));
+                    self.echo(command, $.extend({
+                        raw: raw('command'),
+                        typing: false,
+                        formatters: false,
+                        convertLinks: false
+                    }, options));
                 }, self);
             });
             return function(prompt, message, options) {
@@ -12635,7 +12643,7 @@
                         if (e.target.tagName.toLowerCase() === 'a') {
                             return;
                         }
-                        if (!frozen && e.touches.length === 1) {
+                        if (!frozen && e.touches && e.touches.length === 1) {
                             enabled = self.enabled();
                             var point = e.touches[0];
                             start = {
@@ -12647,7 +12655,7 @@
                             }, HOLD_TIME);
                         }
                     }).on('touchmove.terminal', function(e) {
-                        if (e.touches.length === 1 && start) {
+                        if (e.touches && e.touches.length === 1 && start) {
                             var point = e.touches[0];
                             var diff_x = Math.abs(point.clientX - start.x);
                             var diff_y = Math.abs(point.clientY - start.y);

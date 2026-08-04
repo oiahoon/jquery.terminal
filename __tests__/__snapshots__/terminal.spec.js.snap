@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[` 1`] = `
 {
@@ -106,6 +106,19 @@ lorem ipsum"
 exports[`Terminal plugin jQuery Terminal methods output_buffer should return clear the buffer 2`] = `
 "<div><span data-text="foo&nbsp;">foo&nbsp;</span><span data-text="bar">bar</span></div>
 <div><span data-text="lorem">lorem</span><span data-text="&nbsp;ipsum">&nbsp;ipsum</span></div>"
+`;
+
+exports[`Terminal plugin jQuery Terminal methods signature should render signature with raw: true 1`] = `
+[
+  "      __ _____                     ________                              __
+     / // _  /__ __ _____ ___ __ _/__  ___/__ ___ ______ __ __  __ ___  / /
+ __ / // // // // // _  // _// // / / // _  // _//     // //  \\/ // _ \\/ /
+/  / // // // // // ___// / / // / / // ___// / / / / // // /\\  // // / /__
+\\___//____ \\\\___//____//_/ _\\_  / /_//____//_/ /_/ /_//_//_/ /_/ \\__\\_\\___/
+          \\/              /____/
+Copyright (c) 2010-2026 Jakub T. Jankiewicz <https://jcubic.pl/me>
+",
+]
 `;
 
 exports[`Terminal plugin prompt should format prompt 1`] = `"<span style="font-weight:bold;text-decoration:underline;color:#fff;--color:#fff;--original-color:#fff" data-text=">>>"><span style="width: 3ch;">&gt;&gt;&gt;</span></span><span data-text="&nbsp;"><span style="width: 1ch;">&nbsp;</span></span>"`;

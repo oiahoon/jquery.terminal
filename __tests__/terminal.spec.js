@@ -188,7 +188,7 @@ var get = Object.getOwnPropertyDescriptor(proto, 'key').get;
 get.toString = function() { return 'function() { [native code] }'; };
 Object.defineProperty(proto, 'key', {get: get});
 
-global.location = global.window.location = {hash: ''};
+global.location = global.window.location;
 global.document = window.document;
 global.jQuery = global.$ = require("jquery");
 global.wcwidth = require('wcwidth');
@@ -407,6 +407,16 @@ function output(term) {
     return term.find('.terminal-output > div div').map(function() {
         return $(this).text().replace(/\xA0/g, ' ');
     }).get();
+}
+function no_formatters() {
+    let formatters;
+    beforeEach(() => {
+        formatters = $.terminal.defaults.formatters;
+        $.terminal.defaults.formatters = [];
+    });
+    afterEach(() => {
+        $.terminal.defaults.formatters = formatters;
+    });
 }
 function timer(callback, timeout) {
     return new Promise(function(resolve, reject) {
@@ -3313,6 +3323,7 @@ describe('sub plugins', function() {
 describe('Terminal plugin', function() {
     describe('jQuery Terminal options', function() {
         describe('prompt', function() {
+            no_formatters();
             it('should have default prompt', function() {
                 var term = $('<div/>').terminal($.noop);
                 expect(term.get_prompt()).toEqual('> ');
@@ -3348,6 +3359,120 @@ describe('Terminal plugin', function() {
                     }
                 });
                 expect(term.find('.cmd-prompt').text()).toEqual('>>>');
+            });
+            it('should render raw prompt', async () => {
+                const prompt = '<span>$</span><span> </span>';
+                const prompts = [
+                    prompt,
+                    function(fn) {
+                        fn(prompt);
+                    },
+                    function() {
+                        return prompt;
+                    },
+                    async function() {
+                        return prompt;
+                    }
+                ];
+                for (const prompt of prompts) {
+                    const term = $('<div/>').terminal($.noop, {
+                        raw: {
+                            prompt: true
+                        },
+                        prompt
+                    });
+                    await delay(10);
+                    expect(term.find('.cmd-prompt').text()).toEqual('$ ');
+                }
+            });
+            it('should render raw prompt from echo command', async () => {
+                const prompt = '<span>$</span><span> </span>';
+                const prompts = [
+                    prompt,
+                    function(fn) {
+                        fn(prompt);
+                    },
+                    function() {
+                        return prompt;
+                    },
+                    async function() {
+                        return prompt;
+                    }
+                ];
+                for (const prompt of prompts) {
+                    const term = $('<div/>').terminal($.noop, {
+                        greetings: null,
+                        raw: {
+                            prompt: true
+                        },
+                        prompt
+                    });
+                    await delay(10);
+                    await term.exec('lorem');
+                    await term.exec('ipsum');
+                    expect(term.get_output().split('\n')).toEqual([
+                        '<span>$</span><span> </span>lorem',
+                        '<span>$</span><span> </span>ipsum'
+                    ]);
+                }
+            });
+            it('should render raw prompt from exec animation', async () => {
+                const prompt = '<span>$</span><span> </span>';
+                const prompts = [
+                    prompt,
+                    function(fn) {
+                        fn(prompt);
+                    },
+                    function() {
+                        return prompt;
+                    },
+                    async function() {
+                        return prompt;
+                    }
+                ];
+                for (const prompt of prompts) {
+                    const term = $('<div/>').terminal($.noop, {
+                        greetings: null,
+                        raw: {
+                            prompt: true
+                        },
+                        prompt
+                    });
+                    await delay(10);
+                    await term.exec('lorem', { typing: true, delay: 0 });
+                    await term.exec('ipsum', { typing: true, delay: 0 });
+                    expect([prompt, output(term)]).toEqual([
+                        prompt,
+                        ['$ lorem', '$ ipsum']
+                    ]);
+                }
+            });
+            it('should render raw prompt with typing animation', async () => {
+                const prompt = '<span>$</span><span> </span>';
+                const prompts = [
+                    prompt,
+                    function(fn) {
+                        fn(prompt);
+                    },
+                    function() {
+                        return prompt;
+                    },
+                    async function() {
+                        return prompt;
+                    }
+                ];
+                for (const prompt of prompts) {
+                    const term = $('<div/>').terminal($.noop, {
+                        greetings: null,
+                        raw: {
+                            prompt: true
+                        },
+                        prompt
+                    });
+                    await delay(10);
+                    await term.echo('Hello', { typing: true, delay: 0 });
+                    expect(term.find('.cmd-prompt').text()).toEqual('$ ');
+                }
             });
         });
         describe('history', function() {
@@ -3530,14 +3655,9 @@ describe('Terminal plugin', function() {
             var term = $('<div/>').terminal($.noop, {
                 raw: true
             });
-            let formatters;
+            no_formatters();
             beforeEach(() => {
-                formatters = $.terminal.defaults.formatters;
-                $.terminal.defaults.formatters = [];
                 term.clear();
-            });
-            afterEach(() => {
-                $.terminal.defaults.formatters = formatters;
             });
             const img = '<img src="http://lorempixel.com/300/200/cats/"/>';
             it('should display html when no raw echo option is specified', function() {
@@ -6437,6 +6557,12 @@ describe('Terminal plugin', function() {
                 });
                 term.destroy();
             });
+            it('should render signature with raw: true', () => {
+                var term = $('<div/>').terminal($.noop, {
+                    raw: true
+                });
+                expect(output(term)).toMatchSnapshot();
+            });
         });
         describe('version', function() {
             var term = $('<div/>').terminal();
@@ -6996,6 +7122,19 @@ describe('Terminal plugin', function() {
                         'baz'
                     ]);
                 });
+            });
+            it('should re-render echo function when using raw: true', () => {
+                const term = $('<div/>').terminal({}, {
+                    raw: true,
+                    greetings: null
+                });
+                let counter = 0;
+                term.echo(function() {
+                    return counter++;
+                });
+                term.refresh();
+                term.refresh();
+                expect(term.get_output()).toEqual('2');
             });
             it('should show error in sync echo', function() {
                 term.clear();
