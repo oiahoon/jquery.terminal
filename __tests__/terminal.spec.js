@@ -7117,6 +7117,19 @@ describe('Terminal plugin', function() {
                     ]);
                 });
             });
+            it('should re-render echo function when using raw: true', () => {
+                const term = $('<div/>').terminal({}, {
+                    raw: true,
+                    greetings: null
+                });
+                let counter = 0;
+                term.echo(function() {
+                    return counter++;
+                });
+                term.refresh();
+                term.refresh();
+                expect(term.get_output()).toEqual('2');
+            });
             it('should show error in sync echo', function() {
                 term.clear();
                 term.echo(function() {
