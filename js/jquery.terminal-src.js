@@ -8693,6 +8693,8 @@
                             array = string.split(/\n/);
                             raw_array = string.split(/\n/);
                         }
+                    } else {
+                        raw_string = string;
                     }
                 } else {
                     raw_string = '';
@@ -9702,13 +9704,19 @@
                     var command = mask_command(message);
                     prompt = $.terminal.apply_formatters(prompt, {prompt: true});
                     command = $.terminal.apply_formatters(command, {command: true});
-                    var output = prompt + command;
-                    options = $.extend({}, options, {
+                    self.echo(prompt, $.extend({
+                        newline: false,
+                        raw: raw('prompt'),
                         typing: false,
                         formatters: false,
                         convertLinks: false
-                    });
-                    self.echo(output, options);
+                    }, options));
+                    self.echo(command, $.extend({
+                        raw: raw('command'),
+                        typing: false,
+                        formatters: false,
+                        convertLinks: false
+                    }, options));
                 }, self);
             });
             return function(prompt, message, options) {

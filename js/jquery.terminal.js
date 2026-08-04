@@ -41,7 +41,7 @@
  *
  * broken image by Sophia Bai from the Noun Project (CC-BY)
  *
- * Date: Sat, 01 Aug 2026 13:53:16 +0000
+ * Date: Tue, 04 Aug 2026 12:45:14 +0000
  */
 /* global define, Map, BigInt */
 /* eslint-disable */
@@ -5507,7 +5507,7 @@
     // -------------------------------------------------------------------------
     $.terminal = {
         version: 'DEV',
-        date: 'Sat, 01 Aug 2026 13:53:16 +0000',
+        date: 'Tue, 04 Aug 2026 12:45:14 +0000',
         // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords
         color_names: [
             'transparent', 'currentcolor', 'black', 'silver', 'gray', 'white',
@@ -8693,6 +8693,8 @@
                             array = string.split(/\n/);
                             raw_array = string.split(/\n/);
                         }
+                    } else {
+                        raw_string = string;
                     }
                 } else {
                     raw_string = '';
@@ -9702,13 +9704,19 @@
                     var command = mask_command(message);
                     prompt = $.terminal.apply_formatters(prompt, {prompt: true});
                     command = $.terminal.apply_formatters(command, {command: true});
-                    var output = prompt + command;
-                    options = $.extend({}, options, {
+                    self.echo(prompt, $.extend({
+                        newline: false,
+                        raw: raw('prompt'),
                         typing: false,
                         formatters: false,
                         convertLinks: false
-                    });
-                    self.echo(output, options);
+                    }, options));
+                    self.echo(command, $.extend({
+                        raw: raw('command'),
+                        typing: false,
+                        formatters: false,
+                        convertLinks: false
+                    }, options));
                 }, self);
             });
             return function(prompt, message, options) {

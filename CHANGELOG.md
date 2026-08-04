@@ -2,6 +2,8 @@
 ### Bugfix
 * fix clipboard on `inputStyle == 'contenteditable'` [#1048](https://github.com/jcubic/jquery.terminal/issues/1048)
 * fix exception when accessing `event.touches.length`
+* fix exec with raw prompt don't show up in `get_output()`
+* fix exec leaking html when using typing animation with raw prompt
 
 ## 2.46.1
 ### Bugfix
