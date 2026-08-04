@@ -188,7 +188,7 @@ var get = Object.getOwnPropertyDescriptor(proto, 'key').get;
 get.toString = function() { return 'function() { [native code] }'; };
 Object.defineProperty(proto, 'key', {get: get});
 
-global.location = global.window.location = {hash: ''};
+global.location = global.window.location;
 global.document = window.document;
 global.jQuery = global.$ = require("jquery");
 global.wcwidth = require('wcwidth');
