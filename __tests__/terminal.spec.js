@@ -3349,6 +3349,58 @@ describe('Terminal plugin', function() {
                 });
                 expect(term.find('.cmd-prompt').text()).toEqual('>>>');
             });
+            it('should render raw prompt', async () => {
+                const prompt = '<span>$</span><span> </span>';
+                const prompts = [
+                    '<span>$</span> ',
+                    function(fn) {
+                        fn(prompt);
+                    },
+                    function() {
+                        return prompt;
+                    },
+                    async function() {
+                        return prompt;
+                    }
+                ];
+                for (const prompt of prompts) {
+                    const term = $('<div/>').terminal($.noop, {
+                        raw: {
+                            prompt: true
+                        },
+                        prompt
+                    });
+                    await delay(10);
+                    expect(term.find('.cmd-prompt').text()).toEqual('$ ');
+                }
+            });
+            it('should render raw prompt with typing animation', async () => {
+                const prompt = '<span>$</span><span> </span>';
+                const prompts = [
+                    '<span>$</span> ',
+                    function(fn) {
+                        fn(prompt);
+                    },
+                    function() {
+                        return prompt;
+                    },
+                    async function() {
+                        return prompt;
+                    }
+                ];
+                for (const prompt of prompts) {
+                    const term = $('<div/>').terminal($.noop, {
+                        greetings: null,
+                        raw: {
+                            prompt: true
+                        },
+                        prompt
+                    });
+                    await delay(10);
+                    await term.echo('Hello', { typing: true, delay: 0 });
+                    expect(term.find('.cmd-prompt').text()).toEqual('$ ');
+                }
+            });
         });
         describe('history', function() {
             it('should save data in history', function() {
