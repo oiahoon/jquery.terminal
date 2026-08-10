@@ -1,3 +1,4 @@
+
 <h1 align="center">
   <img src="https://github.com/jcubic/jquery.terminal/blob/master/assets/ascii_art.svg?raw=true&ver=2.46.2"
        alt="ASCII Art that represent text jQuery Terminal - JavaScript Library for Web Based Terminal Emulators" />
@@ -413,7 +414,13 @@ You can request paid support, you can find details at [support.jcubic.pl](https:
 
 ### Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=jcubic/jquery.terminal&type=Date&branch=master)](https://star-history.com/#jcubic/jquery.terminal&Date)
+<a href="https://www.star-history.com/?repos=jcubic%2Fjquery.terminal&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jcubic/jquery.terminal&type=date&theme=dark&legend=top-left&sealed_token=ZOjsFpWr5cBCBdgZACgM9V5pz_VzYY2fYv7NbaO2qBmszqdC4vDn2S06ZTdtDIGrbAib0xsmwLPi-R6Y1mtlmhpqlNK2b8EmcS9u7yd-oPdmD7-Np95KcA" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jcubic/jquery.terminal&type=date&legend=top-left&sealed_token=ZOjsFpWr5cBCBdgZACgM9V5pz_VzYY2fYv7NbaO2qBmszqdC4vDn2S06ZTdtDIGrbAib0xsmwLPi-R6Y1mtlmhpqlNK2b8EmcS9u7yd-oPdmD7-Np95KcA" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jcubic/jquery.terminal&type=date&legend=top-left&sealed_token=ZOjsFpWr5cBCBdgZACgM9V5pz_VzYY2fYv7NbaO2qBmszqdC4vDn2S06ZTdtDIGrbAib0xsmwLPi-R6Y1mtlmhpqlNK2b8EmcS9u7yd-oPdmD7-Np95KcA" />
+ </picture>
+</a>
 
 ### License
 
