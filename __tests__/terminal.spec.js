@@ -3830,7 +3830,7 @@ describe('Terminal plugin', function() {
             }).toThrow(error);
         });
     });
-    describe('interprer return', () => {
+    describe('interpreter return', () => {
         let term;
         beforeEach(() => {
             term = $('<div/>').appendTo('body').terminal({}, {
@@ -3860,7 +3860,7 @@ describe('Terminal plugin', function() {
             await term.delay(0);
             expect(term.get_output()).toEqual('> cmd\n10');
         });
-        it('should rener promise of array', async () => {
+        it('should render promise of array', async () => {
             render(Promise.resolve(['foo', 'bar', 10]));
             await term.delay(0);
             expect(term.get_output()).toMatchSnapshot();
@@ -4991,6 +4991,88 @@ describe('Terminal plugin', function() {
                 expect(test.fn).not.toHaveBeenCalled();
                 done();
             }, 600);
+        });
+    });
+    describe('promise interpreter', function() {
+        it('should create promise of object', async () => {
+            const term = $('<div />').terminal(Promise.resolve({
+                hello(x) {
+                    return x;
+                }
+            }), {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10'
+            ]);
+        });
+        it('should create promise of array', async () => {
+            const term = $('<div />').terminal(Promise.resolve([
+                {
+                    hello(x) {
+                        return x;
+                    }
+                },
+                function(command) {
+                    return "error";
+                }
+            ]), {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            await term.exec('xxx');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10',
+                '> xxx',
+                'error'
+            ]);
+        });
+        it('should create array of promise', async () => {
+            const term = $('<div />').terminal([
+                Promise.resolve({
+                    hello(x) {
+                        return x;
+                    }
+                }),
+                Promise.resolve(function(command) {
+                    return "error";
+                })
+            ], {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            await term.exec('xxx');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10',
+                '> xxx',
+                'error'
+            ]);
+        });
+        it('should create a mixed array', async () => {
+            const term = $('<div />').terminal([
+                Promise.resolve({
+                    hello(x) {
+                        return x;
+                    }
+                }),
+                function(command) {
+                    return "error";
+                }
+            ], {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            await term.exec('xxx');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10',
+                '> xxx',
+                'error'
+            ]);
         });
     });
     describe('nested object interpreter', function() {
