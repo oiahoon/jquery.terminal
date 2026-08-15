@@ -1,3 +1,9 @@
+## 2.47.0
+### Features
+* add support for heredocs in command processing
+### Bugfix
+* fix applying formatters to echo command
+
 ## 2.46.2
 ### Bugfix
 * fix clipboard on `inputStyle == 'contenteditable'` [#1048](https://github.com/jcubic/jquery.terminal/issues/1048)
