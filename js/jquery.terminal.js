@@ -41,7 +41,7 @@
  *
  * broken image by Sophia Bai from the Noun Project (CC-BY)
  *
- * Date: Sat, 15 Aug 2026 11:21:55 +0000
+ * Date: Sat, 15 Aug 2026 16:33:25 +0000
  */
 /* global define, Map, BigInt */
 /* eslint-disable */
@@ -5507,7 +5507,7 @@
     // -------------------------------------------------------------------------
     $.terminal = {
         version: 'DEV',
-        date: 'Sat, 15 Aug 2026 11:21:55 +0000',
+        date: 'Sat, 15 Aug 2026 16:33:25 +0000',
         // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords
         color_names: [
             'transparent', 'currentcolor', 'black', 'silver', 'gray', 'white',
@@ -7636,6 +7636,9 @@
         if (object === null) {
             return object + '';
         }
+        if (is_promise(object)) {
+            return 'promise';
+        }
         if (is_array(object)) {
             return 'array';
         }
@@ -8398,6 +8401,10 @@
                         } else if (type === 'object') {
                             $.extend(object, first);
                             recur(rest, success);
+                        } else if (type === 'promise') {
+                            first.then(function(first) {
+                                recur([first].concat(rest), success);
+                            });
                         }
                     } else {
                         success();
@@ -8412,6 +8419,10 @@
                         ),
                         completion: Object.keys(object)
                     });
+                });
+            } else if (type === 'promise') {
+                user_intrp.then(function(user_intrp) {
+                     make_interpreter(user_intrp, login, finalize);
                 });
             } else if (type === 'string') {
                 if (settings.describe === false) {

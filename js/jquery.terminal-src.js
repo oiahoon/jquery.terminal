@@ -7636,6 +7636,9 @@
         if (object === null) {
             return object + '';
         }
+        if (is_promise(object)) {
+            return 'promise';
+        }
         if (is_array(object)) {
             return 'array';
         }
@@ -8398,6 +8401,10 @@
                         } else if (type === 'object') {
                             $.extend(object, first);
                             recur(rest, success);
+                        } else if (type === 'promise') {
+                            first.then(function(first) {
+                                recur([first].concat(rest), success);
+                            });
                         }
                     } else {
                         success();
@@ -8412,6 +8419,10 @@
                         ),
                         completion: Object.keys(object)
                     });
+                });
+            } else if (type === 'promise') {
+                user_intrp.then(function(user_intrp) {
+                     make_interpreter(user_intrp, login, finalize);
                 });
             } else if (type === 'string') {
                 if (settings.describe === false) {
