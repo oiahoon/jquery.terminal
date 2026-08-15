@@ -1,6 +1,7 @@
 ## 2.47.0
 ### Features
 * add support for heredocs in command processing
+* support promise as interperter
 ### Bugfix
 * fix applying formatters to echo command
 
