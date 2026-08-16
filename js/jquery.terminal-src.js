@@ -8422,7 +8422,7 @@
                 });
             } else if (type === 'promise') {
                 user_intrp.then(function(user_intrp) {
-                     make_interpreter(user_intrp, login, finalize);
+                    make_interpreter(user_intrp, login, finalize);
                 });
             } else if (type === 'string') {
                 if (settings.describe === false) {
