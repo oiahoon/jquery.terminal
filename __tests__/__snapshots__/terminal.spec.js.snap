@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[` 1`] = `
 {
@@ -62,12 +62,12 @@ exports[`Terminal plugin cmd plugin should move cursor 2`] = `
 
 exports[`Terminal plugin events enter text text should appear and interpreter function should be called 1`] = `"<span data-text=">&nbsp;">&gt;&nbsp;</span><span data-text="foo">foo</span>"`;
 
-exports[`Terminal plugin interprer return should render array 1`] = `
+exports[`Terminal plugin interpreter return should render array 1`] = `
 "> cmd
 "foo" "bar" 10"
 `;
 
-exports[`Terminal plugin interprer return should rener promise of array 1`] = `
+exports[`Terminal plugin interpreter return should render promise of array 1`] = `
 "> cmd
 "foo" "bar" 10"
 `;
