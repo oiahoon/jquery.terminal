@@ -8871,19 +8871,22 @@
             command = mask_command(command);
             var options = {
                 exec: false,
-                formatters: true,
+                formatters: false,
                 convertLinks: false,
                 finalize: function finalize(div) {
                     a11y_hide(div.addClass('terminal-command'));
                     fire_event('onEchoCommand', [div, command]);
                 }
             };
+            var raw_command = raw('command');
             self.echo(prompt, $.extend({
                 newline: false,
                 raw: raw('prompt')
             }, options));
-            self.echo(command, $.extend({
-                raw: raw('command')
+            self.echo(raw_command ? command : function() {
+                return $.terminal.apply_formatters(command, { command: true });
+            }, $.extend({
+                raw: raw_command
             }, options));
         }
         // ---------------------------------------------------------------------
