@@ -41,7 +41,7 @@
  *
  * broken image by Sophia Bai from the Noun Project (CC-BY)
  *
- * Date: Wed, 19 Aug 2026 22:48:31 +0000
+ * Date: Thu, 20 Aug 2026 15:57:55 +0000
  */
 /* global define, Map, BigInt */
 /* eslint-disable */
@@ -5507,7 +5507,7 @@
     // -------------------------------------------------------------------------
     $.terminal = {
         version: 'DEV',
-        date: 'Wed, 19 Aug 2026 22:48:31 +0000',
+        date: 'Thu, 20 Aug 2026 15:57:55 +0000',
         // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords
         color_names: [
             'transparent', 'currentcolor', 'black', 'silver', 'gray', 'white',
@@ -8884,7 +8884,7 @@
                 raw: raw('prompt')
             }, options));
             self.echo(raw_command ? command : function() {
-                return $.terminal.apply_formatters(command, { command: true });
+                return $.terminal.apply_formatters(command, {command: true});
             }, $.extend({
                 raw: raw_command
             }, options));

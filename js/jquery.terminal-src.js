@@ -8884,7 +8884,7 @@
                 raw: raw('prompt')
             }, options));
             self.echo(raw_command ? command : function() {
-                return $.terminal.apply_formatters(command, { command: true });
+                return $.terminal.apply_formatters(command, {command: true});
             }, $.extend({
                 raw: raw_command
             }, options));
