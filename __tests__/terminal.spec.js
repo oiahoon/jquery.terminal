@@ -2389,7 +2389,11 @@ describe('Terminal utils', function() {
                 expect(a0(spans.eq(i).text())).toEqual(string);
             });
             [true, false, true].forEach(function(check, i) {
-                expect([i, spans.eq(i).css('color') === 'red']).toEqual([i, check]);
+                // jsdom < 26 returned the 'red' keyword, jsdom >= 26 (jest 30)
+                // serializes computed color spec-compliantly as rgb()
+                var color = spans.eq(i).css('color');
+                var is_red = color === 'red' || color === 'rgb(255, 0, 0)';
+                expect([i, is_red]).toEqual([i, check]);
             });
             expect(spans.eq(1).is('.terminal-inverted')).toBeTruthy();
         });
@@ -2914,6 +2918,46 @@ describe('extensions', function() {
             term.exec('hello');
             expect(term.get_output()).toEqual('...' + prompt + command);
             expect(term.get_prompt()).toEqual(prompt);
+        });
+        it('should preserve command formatters after stringified import (#1052)', function() {
+            var formatters = $.terminal.defaults.formatters;
+            $.terminal.defaults.formatters = [[/cmd/g, 'CMD', {command: true}]];
+            try {
+                term.clear();
+                term.set_prompt('>>> ');
+                enter(term, 'cmd');
+                var before = term.get_output();
+                expect(before).toEqual('>>> CMD');
+                var view = JSON.parse(JSON.stringify(term.export_view()));
+                term.clear();
+                term.import_view(view);
+                expect(term.get_output()).toEqual(before);
+            } finally {
+                $.terminal.defaults.formatters = formatters;
+            }
+        });
+        it('should keep command formatting after enter (#1052)', async function() {
+            var formatters = $.terminal.defaults.formatters;
+            $.terminal.defaults.formatters = [[/cmd/g, 'CMD', {command: true}]];
+            try {
+                term.clear();
+                term.set_prompt('>>> ');
+                enter(term, 'cmd');
+                // wait for the #952 partial update that re-renders the line
+                await delay(50);
+                expect(term.get_output()).toEqual('>>> CMD');
+            } finally {
+                $.terminal.defaults.formatters = formatters;
+            }
+        });
+        it('should preserve per-partial raw option on redraw (#1052)', function() {
+            term.clear();
+            // first partial is raw HTML, second is escaped
+            term.echo('<b>a</b>', {raw: true, newline: false});
+            term.echo('<b>b</b>');
+            var before = term.find('.terminal-output').html();
+            term.refresh();
+            expect(term.find('.terminal-output').html()).toEqual(before);
         });
         it('should echo prompt on enter', function() {
             var prompt = '>>> ';
@@ -3830,7 +3874,7 @@ describe('Terminal plugin', function() {
             }).toThrow(error);
         });
     });
-    describe('interprer return', () => {
+    describe('interpreter return', () => {
         let term;
         beforeEach(() => {
             term = $('<div/>').appendTo('body').terminal({}, {
@@ -3860,7 +3904,7 @@ describe('Terminal plugin', function() {
             await term.delay(0);
             expect(term.get_output()).toEqual('> cmd\n10');
         });
-        it('should rener promise of array', async () => {
+        it('should render promise of array', async () => {
             render(Promise.resolve(['foo', 'bar', 10]));
             await term.delay(0);
             expect(term.get_output()).toMatchSnapshot();
@@ -4991,6 +5035,88 @@ describe('Terminal plugin', function() {
                 expect(test.fn).not.toHaveBeenCalled();
                 done();
             }, 600);
+        });
+    });
+    describe('promise interpreter', function() {
+        it('should create promise of object', async () => {
+            const term = $('<div />').terminal(Promise.resolve({
+                hello(x) {
+                    return x;
+                }
+            }), {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10'
+            ]);
+        });
+        it('should create promise of array', async () => {
+            const term = $('<div />').terminal(Promise.resolve([
+                {
+                    hello(x) {
+                        return x;
+                    }
+                },
+                function(command) {
+                    return "error";
+                }
+            ]), {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            await term.exec('xxx');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10',
+                '> xxx',
+                'error'
+            ]);
+        });
+        it('should create array of promise', async () => {
+            const term = $('<div />').terminal([
+                Promise.resolve({
+                    hello(x) {
+                        return x;
+                    }
+                }),
+                Promise.resolve(function(command) {
+                    return "error";
+                })
+            ], {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            await term.exec('xxx');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10',
+                '> xxx',
+                'error'
+            ]);
+        });
+        it('should create a mixed array', async () => {
+            const term = $('<div />').terminal([
+                Promise.resolve({
+                    hello(x) {
+                        return x;
+                    }
+                }),
+                function(command) {
+                    return "error";
+                }
+            ], {
+                greetings: false
+            });
+            await term.exec('hello 10');
+            await term.exec('xxx');
+            expect(term.get_output().split('\n')).toEqual([
+                '> hello 10',
+                '10',
+                '> xxx',
+                'error'
+            ]);
         });
     });
     describe('nested object interpreter', function() {

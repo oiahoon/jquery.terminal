@@ -23,7 +23,10 @@ type TypeOrPromise<T> = T | PromiseLike<T>;
 declare namespace JQueryTerminal {
     type interpreterFunction = (this: JQueryTerminal, command: string, term: JQueryTerminal) => any;
     type terminalObjectFunction = (this: JQueryTerminal, ...args: (string | number | RegExp)[]) => (void | TypeOrPromise<simpleEchoValue>);
-    type Interpreter = string | interpreterFunction | ObjectInterpreter;
+
+    type InterpreterArgument = string | interpreterFunction | ObjectInterpreter;
+    type Interpreter = PromiseLike<TypeOrArray<InterpreterArgument>> | TypeOrArray<TypeOrPromise<InterpreterArgument>>;
+
     type ObjectInterpreter = {
         [key: string]: ObjectInterpreter | terminalObjectFunction;
     }
@@ -530,7 +533,7 @@ declare namespace JQueryTerminal {
 }
 
 interface JQuery<TElement = HTMLElement> {
-    terminal(interpreter?: TypeOrArray<JQueryTerminal.Interpreter>, options?: JQueryTerminal.TerminalOptions): JQueryTerminal;
+    terminal(interpreter?: JQueryTerminal.Interpreter, options?: JQueryTerminal.TerminalOptions): JQueryTerminal;
     resizer(arg: TypeOrString<anyFunction>): JQuery;
     cmd(options?: CmdOptions): Cmd;
     text_length(): number;
@@ -752,7 +755,7 @@ interface JQueryTerminal<TElement = HTMLElement> extends JQuery<TElement> {
     before_cursor(word?: boolean): string;
     complete(commands: string[], options?: JQueryTerminal.CompleteOptions): boolean;
     commands(): JQueryTerminal.interpreterFunction;
-    set_interpreter(interpreter: TypeOrArray<JQueryTerminal.Interpreter>, login?: JQueryTerminal.LoginArgument): JQueryTerminal;
+    set_interpreter(interpreter: JQueryTerminal.Interpreter, login?: JQueryTerminal.LoginArgument): JQueryTerminal;
     greetings(): JQueryTerminal;
     paused(): boolean;
     pause(): JQueryTerminal;
@@ -805,6 +808,7 @@ interface JQueryTerminal<TElement = HTMLElement> extends JQuery<TElement> {
     echo<TValue = JQueryTerminal.echoValueOrPromise>(arg: TValue, options?: JQueryTerminal.EchoOptions): JQueryTerminal;
     animation(callback: anyFunction): PromiseLike<void>;
     delay(time: number): PromiseLike<void>;
+    delay(duration: JQuery.Duration, queueName?: string): this;
     error(arg: JQueryTerminal.errorArgument, options?: JQueryTerminal.EchoOptions): JQueryTerminal;
     exception<T extends Error>(e: T, label?: string): JQueryTerminal;
     scroll(handler?: JQuery.TypeEventHandler<TElement, null, TElement, TElement, 'scroll'> | false): this;
@@ -820,7 +824,7 @@ interface JQueryTerminal<TElement = HTMLElement> extends JQuery<TElement> {
     skip(): JQueryTerminal;
     skip_stop(): JQueryTerminal;
     read(message: string, success_or_options?: ((result: string) => void) | JQueryTerminal.readOptions, cancel?: voidFunction): JQuery.Promise<string>;
-    push(interpreter: TypeOrArray<JQueryTerminal.Interpreter>, options?: JQueryTerminal.pushOptions): JQueryTerminal;
+    push(interpreter: JQueryTerminal.Interpreter, options?: JQueryTerminal.pushOptions): JQueryTerminal;
     pop(echoCommand?: string, silent?: boolean): JQueryTerminal;
     option(option: keyof JQueryTerminal.TerminalOptions, value?: any): any;
     option(options: JQueryTerminal.TerminalOptions): any;
