@@ -8,6 +8,7 @@
 ### Bugfix
 * fix applying formatters to echo command [#1052](https://github.com/jcubic/jquery.terminal/issues/1052)
 * keep each partial (`echo` with `newline: false`) `raw` and `formatters` options when the line is re-rendered on redraw, `refresh` and `import_view` [#1052](https://github.com/jcubic/jquery.terminal/issues/1052)
+* better error thrown when calling `Termina::export_view()` when output not ready
 
 ## 2.46.2
 ### Bugfix

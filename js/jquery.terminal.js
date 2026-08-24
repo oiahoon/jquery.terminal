@@ -4,7 +4,7 @@
  *  __ / // // // // // _  // _// // / / // _  // _//     // //  \/ // _ \/ /
  * /  / // // // // // ___// / / // / / // ___// / / / / // // /\  // // / /__
  * \___//____ \\___//____//_/ _\_  / /_//____//_/ /_/ /_//_//_/ /_/ \__\_\___/
- *           \/              /____/                              version 2.46.0
+ *           \/              /____/                              version DEV
  *
  * This file is part of jQuery Terminal. https://terminal.jcubic.pl
  *
@@ -41,7 +41,7 @@
  *
  * broken image by Sophia Bai from the Noun Project (CC-BY)
  *
- * Date: Mon, 24 Aug 2026 13:28:18 +0000
+ * Date: Mon, 24 Aug 2026 13:45:45 +0000
  */
 /* global define, Map, BigInt */
 /* eslint-disable */
@@ -5543,8 +5543,8 @@
     }
     // -------------------------------------------------------------------------
     $.terminal = {
-        version: '2.46.0',
-        date: 'Mon, 24 Aug 2026 13:28:18 +0000',
+        version: 'DEV',
+        date: 'Mon, 24 Aug 2026 13:45:45 +0000',
         // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords
         color_names: [
             'transparent', 'currentcolor', 'black', 'silver', 'gray', 'white',
@@ -10091,9 +10091,12 @@
             },
             // -------------------------------------------------------------
             // :: Return an object that can be used with import_view to
-            // :: restore the state
+            // :: restore the state. It throws an error when output not ready
             // -------------------------------------------------------------
             export_view: function() {
+                if (!command_line || async_echo.length) {
+                    throw new Error('output not ready use Terminal::output_ready()');
+                }
                 var user_export = fire_event('onExport');
                 user_export = user_export || {};
                 return $.extend({}, {

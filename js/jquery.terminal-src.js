@@ -10091,9 +10091,12 @@
             },
             // -------------------------------------------------------------
             // :: Return an object that can be used with import_view to
-            // :: restore the state
+            // :: restore the state. It throws an error when output not ready
             // -------------------------------------------------------------
             export_view: function() {
+                if (!command_line || async_echo.length) {
+                    throw new Error('output not ready use Terminal::output_ready()');
+                }
                 var user_export = fire_event('onExport');
                 user_export = user_export || {};
                 return $.extend({}, {
