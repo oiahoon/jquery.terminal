@@ -1,3 +1,4 @@
+
 <h1 align="center">
   <img src="https://github.com/jcubic/jquery.terminal/blob/devel/assets/ascii_art.svg?raw=true&ver=DEV"
        alt="ASCII Art that represent text jQuery Terminal - JavaScript Library for Web Based Terminal Emulators" />
@@ -8,7 +9,7 @@
 [![npm](https://img.shields.io/badge/npm-DEV-blue.svg)](https://www.npmjs.com/package/jquery.terminal)
 ![bower](https://img.shields.io/badge/bower-DEV-yellow.svg)
 [![Build and test](https://github.com/jcubic/jquery.terminal/actions/workflows/build.yaml/badge.svg?branch=devel&event=push)](https://github.com/jcubic/jquery.terminal/actions/workflows/build.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/jcubic/jquery.terminal/badge.svg?branch=devel&0670622677f039243c980ba21d719efe)](https://coveralls.io/github/jcubic/jquery.terminal?branch=devel)
+[![Coverage Status](https://coveralls.io/repos/github/jcubic/jquery.terminal/badge.svg?branch=devel&c9e193e060dcb551b8554ad036ab2c82)](https://coveralls.io/github/jcubic/jquery.terminal?branch=devel)
 ![NPM Downloads](https://img.shields.io/npm/dm/jquery.terminal.svg?style=flat)
 [![jsDelivr Downloads](https://data.jsdelivr.com/v1/package/npm/jquery.terminal/badge?style=rounded&n=1)](https://www.jsdelivr.com/package/npm/jquery.terminal)
 [![Paid Support](https://img.shields.io/badge/paid-support-354465.svg)](https://support.jcubic.pl/)
@@ -413,7 +414,13 @@ You can request paid support, you can find details at [support.jcubic.pl](https:
 
 ### Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=jcubic/jquery.terminal&type=Date&branch=devel)](https://star-history.com/#jcubic/jquery.terminal&Date)
+<a href="https://www.star-history.com/?repos=jcubic%2Fjquery.terminal&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jcubic/jquery.terminal&type=date&theme=dark&legend=top-left&sealed_token=ZOjsFpWr5cBCBdgZACgM9V5pz_VzYY2fYv7NbaO2qBmszqdC4vDn2S06ZTdtDIGrbAib0xsmwLPi-R6Y1mtlmhpqlNK2b8EmcS9u7yd-oPdmD7-Np95KcA" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jcubic/jquery.terminal&type=date&legend=top-left&sealed_token=ZOjsFpWr5cBCBdgZACgM9V5pz_VzYY2fYv7NbaO2qBmszqdC4vDn2S06ZTdtDIGrbAib0xsmwLPi-R6Y1mtlmhpqlNK2b8EmcS9u7yd-oPdmD7-Np95KcA" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jcubic/jquery.terminal&type=date&legend=top-left&sealed_token=ZOjsFpWr5cBCBdgZACgM9V5pz_VzYY2fYv7NbaO2qBmszqdC4vDn2S06ZTdtDIGrbAib0xsmwLPi-R6Y1mtlmhpqlNK2b8EmcS9u7yd-oPdmD7-Np95KcA" />
+ </picture>
+</a>
 
 ### License
 
